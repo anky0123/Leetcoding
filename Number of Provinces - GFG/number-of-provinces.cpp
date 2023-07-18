@@ -13,8 +13,6 @@ class Solution {
       status[i] = 1;
       for(int j=0;j<adj[i].size();j++)
       {
-          
-          
            if(!status[j] && adj[i][j] == 1)
             dfs(j, status, adj);
       }
