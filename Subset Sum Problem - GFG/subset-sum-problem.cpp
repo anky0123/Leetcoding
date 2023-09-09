@@ -7,27 +7,23 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
-// Recursion.
- // Memoize.
 class Solution{   
 public:
-    bool subset(vector<vector<int>>&dp, vector<int>& arr, int sum, int n)
-    {
-        if(sum == 0 ) return 1;
-        if(n == 0 && sum!=0) return 0;
-        if(dp[n][sum]!= -1 ) 
-        return dp[n][sum];
-        
-        if(arr[n-1] <= sum) 
-        {
-            return dp[n][sum] =  (subset(dp,arr,sum-arr[n-1], n-1) || subset(dp, arr, sum, n-1));
-        }
-        else return dp[n][sum] =  subset(dp, arr, sum, n-1);
-    }
     bool isSubsetSum(vector<int>arr, int sum){
         int n = arr.size();
-        vector<vector<int>> dp(n + 1, vector<int>(sum + 1, -1));
-        return subset(dp,arr, sum, n);
+        
+        vector<vector<bool>> dp(arr.size()+1, vector<bool> (sum+1, false));
+        for(int i=0;i<=n;i++)   dp[i][0] = true;
+        
+        for(int i=1;i<n+1;i++)
+        {
+            for(int j=1;j<sum+1;j++)
+            {
+                if(arr[i-1] <= j) dp[i][j] = (dp[i-1][j] || dp[i-1][j - arr[i-1]]);
+                else dp[i][j] = dp[i-1][j];
+            }
+        }
+        return dp[n][sum];
     }
 };
 
