@@ -10,18 +10,18 @@ using namespace std;
 
 class Solution{
   public:
-    int cut(int price[], int n, int length, vector<vector<int>>&dp)
-    {
-        if(n == 0) return 0;
-        if(dp[n][length]!=0) return dp[n][length];
-        if(n <= length) return dp[n][length] =  max ((price[n-1]  + cut(price, n, length - n, dp)), cut(price, n-1, length, dp));
-        else return dp[n][length] =  cut(price, n-1, length, dp);
-    }
     int cutRod(int price[], int n) {
-        //code here
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
-        return cut(price, n, n, dp);
-        
+        int length = n;
+        vector<vector<int>> dp(n+1, vector<int> (length+1, 0));
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=0;j<=length;j++)
+            {
+                if(i <= j) dp[i][j] = max((price[i-1] + dp[i][j-i]), (dp[i-1][j]));
+                else dp[i][j] = dp[i-1][j];
+            }
+        }
+        return dp[n][length];
     }
 };
 
